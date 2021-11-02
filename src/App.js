@@ -1,23 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
+import React,{useState} from 'react';
+import Checklist from './components/Checklist';
+import ToDo from './components/ToDo';
 
 function App() {
+  const [currentToDo, setCurrentToDo] = useState([])
+
+  const newToDo = (newToDo) =>{
+    setCurrentToDo([...currentToDo, newToDo])
+  }
+  const changeFinished = idx => {
+    const toDoChange = currentToDo[idx];
+    toDoChange.finished = !toDoChange.finished;
+    setCurrentToDo([...currentToDo]);
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Checklist onNewToDo={newToDo}></Checklist>
+      <hr></hr>
+      <ToDo toDo={currentToDo} finished={changeFinished}></ToDo>
     </div>
   );
 }
